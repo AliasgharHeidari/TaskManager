@@ -1,0 +1,26 @@
+{
+  "3053": {
+    "Title": "Delete Temp",
+    "Description": "Delete all temporary files which stored in /users/temp to speed up the system.",
+    "Date": "2025-08-24T21:53:01.1112588+03:30",
+    "Status": false
+  },
+  "3697": {
+    "Title": "Website Deploy",
+    "Description": "Put Html/Css files in Server-3 to make website online across internet.",
+    "Date": "2025-08-24T22:06:31.8438991+03:30",
+    "Status": true
+  },
+  "3983": {
+    "Title": "Install Requirements",
+    "Description": "Install Node.js, Python, Github \u0026 DirectX12 on systems.",
+    "Date": "2025-08-24T22:08:30.8910816+03:30",
+    "Status": true
+  },
+  "5739": {
+    "Title": "clean cache",
+    "Description": "clean the cache of the Server-2, it would require system restart.",
+    "Date": "2025-08-24T21:51:23.1283835+03:30",
+    "Status": false
+  }
+}
