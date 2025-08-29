@@ -9,6 +9,7 @@ import (
 	"strings"
 	"task-manager/internal/model"
 	filestorage "task-manager/internal/repository/file"
+	"task-manager/internal/repository/memorycache"
 	"time"
 )
 
@@ -31,19 +32,19 @@ func AddTask() {
 	task.Date = time.Now()
 	task.Status = false
 	taskID = rand.Intn(9000) + 1000
-	task_map[taskID] = task
+	(*memorycache.Tasks)[taskID] = task
 	filestorage.SaveTasks()
-	fmt.Println("-------Task succeccfuly added-------")
+	fmt.Println("-------Task successfully added-------")
 }
 
 func ListTask() {
 	filestorage.LoadTask()
-	if len(task_map) == 0 {
+	if len(*memorycache.Tasks) == 0 {
 		fmt.Println("-----------------------------------------------")
 		fmt.Println("----------------No task avalible---------------")
 	}
 	fmt.Println("-----------------------------------------------")
-	for id, task := range task_map {
+	for id, task := range *memorycache.Tasks {
 		fmt.Println("ID:", id)
 		fmt.Println("Title:", task.Title)
 		fmt.Println("Description:", task.Description)
@@ -69,10 +70,10 @@ func DeleteTask() {
 		break
 	}
 
-	_, ok := task_map[id]
+	_, ok := (*memorycache.Tasks)[id]
 	if ok {
-		delete(task_map, id)
-		fmt.Println("---Task successfuly deleted---")
+		delete(*memorycache.Tasks, id)
+		fmt.Println("---Task successfully deleted---")
 	} else {
 		fmt.Println("Invalid ID")
 	}
@@ -88,10 +89,10 @@ func StatusTask() {
 	if err != nil {
 		fmt.Println("---Invalid ID---")
 	}
-	task, exists := task_map[id]
+	task, exists := (*memorycache.Tasks)[id]
 	if exists {
 		task.Status = true
-		task_map[id] = task
+		(*memorycache.Tasks)[id] = task
 		fmt.Println("Task status changed to true")
 	} else {
 		fmt.Println("Task not found")
