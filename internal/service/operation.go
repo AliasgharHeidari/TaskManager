@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"bufio"
@@ -7,18 +7,21 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"task-manager/internal/model"
+	filestorage "task-manager/internal/repository/file"
+	"task-manager/internal/repository/memorycache"
 	"time"
 )
 
 var taskID = 0
 
-func addTask() {
-	loadTask()
+func AddTask() {
+	filestorage.LoadTask()
 	rand.Seed(time.Now().UnixNano())
 	reader := bufio.NewReader(os.Stdin)
 
 	reader.ReadString('\n')
-	var task Task
+	var task model.Task
 	fmt.Printf("Enter the name of task: ")
 	title, _ := reader.ReadString('\n')
 	task.Title = strings.TrimSpace(title)
@@ -29,19 +32,19 @@ func addTask() {
 	task.Date = time.Now()
 	task.Status = false
 	taskID = rand.Intn(9000) + 1000
-	task_map[taskID] = task
-	saveTasks()
-	fmt.Println("-------Task succeccfuly added-------")
+	(*memorycache.Tasks)[taskID] = task
+	filestorage.SaveTasks()
+	fmt.Println("-------Task successfully added-------")
 }
 
-func listTask() {
-	loadTask()
-	if len(task_map) == 0 {
+func ListTask() {
+	filestorage.LoadTask()
+	if len(*memorycache.Tasks) == 0 {
 		fmt.Println("-----------------------------------------------")
 		fmt.Println("----------------No task avalible---------------")
 	}
 	fmt.Println("-----------------------------------------------")
-	for id, task := range task_map {
+	for id, task := range *memorycache.Tasks {
 		fmt.Println("ID:", id)
 		fmt.Println("Title:", task.Title)
 		fmt.Println("Description:", task.Description)
@@ -51,8 +54,8 @@ func listTask() {
 	}
 }
 
-func deleteTask() {
-	loadTask()
+func DeleteTask() {
+	filestorage.LoadTask()
 	var id int
 	var err error
 	for {
@@ -67,18 +70,18 @@ func deleteTask() {
 		break
 	}
 
-	_, ok := task_map[id]
+	_, ok := (*memorycache.Tasks)[id]
 	if ok {
-		delete(task_map, id)
-		fmt.Println("---Task successfuly deleted---")
+		delete(*memorycache.Tasks, id)
+		fmt.Println("---Task successfully deleted---")
 	} else {
 		fmt.Println("Invalid ID")
 	}
-	saveTasks()
+	filestorage.SaveTasks()
 }
 
-func statusTask() {
-	loadTask()
+func StatusTask() {
+	filestorage.LoadTask()
 	var input string
 	fmt.Printf("Enter task ID: ")
 	fmt.Scan(&input)
@@ -86,13 +89,13 @@ func statusTask() {
 	if err != nil {
 		fmt.Println("---Invalid ID---")
 	}
-	task, exists := task_map[id]
+	task, exists := (*memorycache.Tasks)[id]
 	if exists {
 		task.Status = true
-		task_map[id] = task
+		(*memorycache.Tasks)[id] = task
 		fmt.Println("Task status changed to true")
 	} else {
 		fmt.Println("Task not found")
 	}
-	saveTasks()
+	filestorage.SaveTasks()
 }

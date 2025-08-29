@@ -1,3 +1,3 @@
-module cmd
+module task-manager
 
-go 1.24.1
+go 1.25.0
