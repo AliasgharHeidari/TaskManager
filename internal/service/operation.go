@@ -32,12 +32,12 @@ func AddTask() {
 	task.Status = false
 	taskID = rand.Intn(9000) + 1000
 	task_map[taskID] = task
-	saveTasks()
+	filestorage.SaveTasks()
 	fmt.Println("-------Task succeccfuly added-------")
 }
 
 func ListTask() {
-	loadTask()
+	filestorage.LoadTask()
 	if len(task_map) == 0 {
 		fmt.Println("-----------------------------------------------")
 		fmt.Println("----------------No task avalible---------------")
@@ -54,7 +54,7 @@ func ListTask() {
 }
 
 func DeleteTask() {
-	loadTask()
+	filestorage.LoadTask()
 	var id int
 	var err error
 	for {
@@ -76,11 +76,11 @@ func DeleteTask() {
 	} else {
 		fmt.Println("Invalid ID")
 	}
-	saveTasks()
+	filestorage.SaveTasks()
 }
 
 func StatusTask() {
-	loadTask()
+	filestorage.LoadTask()
 	var input string
 	fmt.Printf("Enter task ID: ")
 	fmt.Scan(&input)
@@ -96,5 +96,5 @@ func StatusTask() {
 	} else {
 		fmt.Println("Task not found")
 	}
-	saveTasks()
+	filestorage.SaveTasks()
 }
