@@ -1,4 +1,4 @@
-package main
+package service
 
 import (
 	"bufio"
@@ -7,13 +7,14 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	filestorage "task-manager/internal/repository/file"
 	"time"
 )
 
 var taskID = 0
 
-func addTask() {
-	loadTask()
+func AddTask() {
+	filestorage.LoadTask()
 	rand.Seed(time.Now().UnixNano())
 	reader := bufio.NewReader(os.Stdin)
 
@@ -34,7 +35,7 @@ func addTask() {
 	fmt.Println("-------Task succeccfuly added-------")
 }
 
-func listTask() {
+func ListTask() {
 	loadTask()
 	if len(task_map) == 0 {
 		fmt.Println("-----------------------------------------------")
@@ -51,7 +52,7 @@ func listTask() {
 	}
 }
 
-func deleteTask() {
+func DeleteTask() {
 	loadTask()
 	var id int
 	var err error
@@ -77,7 +78,7 @@ func deleteTask() {
 	saveTasks()
 }
 
-func statusTask() {
+func StatusTask() {
 	loadTask()
 	var input string
 	fmt.Printf("Enter task ID: ")
