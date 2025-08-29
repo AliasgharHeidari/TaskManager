@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"task-manager/internal/model"
 	filestorage "task-manager/internal/repository/file"
 	"time"
 )
@@ -19,7 +20,7 @@ func AddTask() {
 	reader := bufio.NewReader(os.Stdin)
 
 	reader.ReadString('\n')
-	var task Task
+	var task model.Task
 	fmt.Printf("Enter the name of task: ")
 	title, _ := reader.ReadString('\n')
 	task.Title = strings.TrimSpace(title)
