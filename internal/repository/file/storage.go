@@ -13,11 +13,11 @@ func SaveTasks() {
 		fmt.Println("saving failed: ", err)
 		return
 	}
-	os.WriteFile("Save-json/tasks.json", data, 0644)
+	os.WriteFile("data/tasks.json", data, 0755)
 }
 
 func LoadTask() {
-	file, err := os.ReadFile("Save-json/tasks.json")
+	file, err := os.ReadFile("data/tasks.json")
 	if err != nil {
 		fmt.Println("Loading failed: ", err)
 		return
