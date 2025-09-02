@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"task-manager/internal/service"
+)
 
 func main() {
 	var choice int
@@ -13,13 +16,13 @@ func main() {
 		fmt.Scan(&choice)
 		switch choice {
 		case 1:
-			addTask()
+			service.AddTask()
 		case 2:
-			listTask()
+			service.ListTask()
 		case 3:
-			deleteTask()
+			service.DeleteTask()
 		case 4:
-			statusTask()
+			service.StatusTask()
 		default:
 			fmt.Println("---Invalid choice---")
 			continue
